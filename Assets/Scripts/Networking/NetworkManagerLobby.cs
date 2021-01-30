@@ -8,13 +8,13 @@ using UnityEngine.SceneManagement;
 public class NetworkManagerLobby : NetworkManager
 {
     [SerializeField] private int minPlayers = 2;
-    [Scene] [SerializeField] private string menuScene = string.Empty;
+    [SerializeField] private string menuScene = string.Empty;
 
     [Header("Room")]
-    [SerializeField] private NetworkRoomPlayerLobby roomPlayerPrefab = null;
+    [SerializeField] private NetworkRoomPlayer roomPlayerPrefab = null;
 
     [Header("Game")]
-    [SerializeField] private NetworkGamePlayerLobby gamePlayerPrefab = null;
+    [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
     [SerializeField] private GameObject roundSystem = null;
 
@@ -23,8 +23,8 @@ public class NetworkManagerLobby : NetworkManager
     public static event Action<NetworkConnection> OnServerReadied;
     public static event Action OnServerStopped;
 
-    public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
-    public List<NetworkGamePlayerLobby> GamePlayers { get; } = new List<NetworkGamePlayerLobby>();
+    public List<NetworkRoomPlayer> RoomPlayers { get; } = new List<NetworkRoomPlayer>();
+    public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
 
     public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
 
@@ -69,11 +69,12 @@ public class NetworkManagerLobby : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
-        if (SceneManager.GetActiveScene().name == menuScene)
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == menuScene)
         {
             bool isLeader = RoomPlayers.Count == 0;
 
-            NetworkRoomPlayerLobby roomPlayerInstance = Instantiate(roomPlayerPrefab);
+            NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab);
 
             roomPlayerInstance.IsLeader = isLeader;
 
@@ -85,7 +86,7 @@ public class NetworkManagerLobby : NetworkManager
     {
         if (conn.identity != null)
         {
-            var player = conn.identity.GetComponent<NetworkRoomPlayerLobby>();
+            var player = conn.identity.GetComponent<NetworkRoomPlayer>();
 
             RoomPlayers.Remove(player);
 
@@ -136,7 +137,7 @@ public class NetworkManagerLobby : NetworkManager
     public override void ServerChangeScene(string newSceneName)
     {
         // From menu to game
-        if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
+        if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Game"))
         {
             for (int i = RoomPlayers.Count - 1; i >= 0; i--)
             {
@@ -155,7 +156,7 @@ public class NetworkManagerLobby : NetworkManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (sceneName.StartsWith("Scene_Map"))
+        if (sceneName.StartsWith("Game"))
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
