@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : NetworkBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private float gravity = 20f;
+    [SerializeField] private float gravity = 10f;
     [SerializeField] private float vSpeed;
     [SerializeField] private CharacterController controller = null;
     [SerializeField] private Transform GFXTransform = null;
