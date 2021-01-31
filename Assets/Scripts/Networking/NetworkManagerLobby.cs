@@ -17,6 +17,7 @@ public class NetworkManagerLobby : NetworkManager
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
     [SerializeField] private GameObject itemSpawnSystem = null;
+    [SerializeField] private GameObject scoreSystem = null;
     //[SerializeField] private GameObject roundSystem = null;
 
     public static event Action OnClientConnected;
@@ -168,6 +169,12 @@ public class NetworkManagerLobby : NetworkManager
 
             // GameObject roundSystemInstance = Instantiate(roundSystem);
             // NetworkServer.Spawn(roundSystemInstance);
+        }
+        if (sceneName.StartsWith("closer"))
+        {
+            GamePlayers.ForEach(x => x.gameObject.SetActive(false));
+            GameObject scoreSystemInstance = Instantiate(scoreSystem);
+            NetworkServer.Spawn(scoreSystemInstance);
         }
     }
 

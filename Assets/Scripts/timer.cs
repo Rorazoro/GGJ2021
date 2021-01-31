@@ -6,7 +6,8 @@ using Mirror;
 
 public class timer : NetworkBehaviour
 {
-    public float timeRemaining = 10;
+    [SyncVar]
+    public float timeRemaining = 300;
     public bool timerIsRunning = false;
     public Text timeText;
 
@@ -40,9 +41,15 @@ public class timer : NetworkBehaviour
                 Debug.Log("Time has run out!");
                 timeRemaining = 0;
                 timerIsRunning = false;
-                room.ServerChangeScene("closer");
+                EndGame();
             }
         }
+    }
+
+    [Server]
+    private void EndGame()
+    {
+        Room.ServerChangeScene("closer");
     }
 
     void DisplayTime(float timeToDisplay)

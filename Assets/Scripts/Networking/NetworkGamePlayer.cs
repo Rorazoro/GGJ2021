@@ -43,10 +43,20 @@ public class NetworkGamePlayer : NetworkBehaviour
         this.displayName = displayName;
     }
 
+    public string GetDisplayName()
+    {
+        return this.displayName;
+    }
+
     public void IncreaseScore()
     {
-        this.score++;
+        this.score += 100;
         ScoreText.text = score.ToString();
+    }
+
+    public int GetScore()
+    {
+        return this.score;
     }
 
     public override void OnStartAuthority()
