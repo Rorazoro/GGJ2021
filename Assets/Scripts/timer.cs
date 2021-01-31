@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class timer : MonoBehaviour
+public class timer : NetworkBehaviour
 {
     public float timeRemaining = 10;
     public bool timerIsRunning = false;
     public Text timeText;
+
+    private NetworkManagerLobby room;
+    private NetworkManagerLobby Room
+    {
+        get
+        {
+            if (room != null) { return room; }
+            return room = NetworkManager.singleton as NetworkManagerLobby;
+        }
+    }
 
     private void Start()
     {
@@ -29,6 +40,7 @@ public class timer : MonoBehaviour
                 Debug.Log("Time has run out!");
                 timeRemaining = 0;
                 timerIsRunning = false;
+                room.ServerChangeScene("closer");
             }
         }
     }
