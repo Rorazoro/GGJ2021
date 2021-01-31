@@ -80,7 +80,6 @@ MonoBehaviour:
   roomPlayerPrefab: {fileID: 0}
   gamePlayerPrefab: {fileID: 0}
   playerSpawnSystem: {fileID: 0}
-  roundSystem: {fileID: 0}
 --- !u!114 &9111760983911273492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +108,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9111760983911273494}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 

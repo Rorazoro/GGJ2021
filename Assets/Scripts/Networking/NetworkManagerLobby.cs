@@ -16,6 +16,7 @@ public class NetworkManagerLobby : NetworkManager
     [Header("Game")]
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
+    [SerializeField] private GameObject itemSpawnSystem = null;
     //[SerializeField] private GameObject roundSystem = null;
 
     public static event Action OnClientConnected;
@@ -160,6 +161,9 @@ public class NetworkManagerLobby : NetworkManager
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
+
+            GameObject itemSpawnSystemInstance = Instantiate(itemSpawnSystem);
+            NetworkServer.Spawn(itemSpawnSystemInstance);
 
             // GameObject roundSystemInstance = Instantiate(roundSystem);
             // NetworkServer.Spawn(roundSystemInstance);
