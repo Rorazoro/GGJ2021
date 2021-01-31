@@ -1,8 +1,19 @@
 using Mirror;
+using TMPro;
+using UnityEngine;
+
 public class NetworkGamePlayer : NetworkBehaviour
 {
     [SyncVar]
     private string displayName = "Loading...";
+
+    [SyncVar]
+    private int score = 0;
+
+    [SerializeField]
+    private TMP_Text ScoreText;
+    [SerializeField]
+    private Canvas canvas;
 
     private NetworkManagerLobby room;
     private NetworkManagerLobby Room
@@ -30,5 +41,16 @@ public class NetworkGamePlayer : NetworkBehaviour
     public void SetDisplayName(string displayName)
     {
         this.displayName = displayName;
+    }
+
+    public void IncreaseScore()
+    {
+        this.score++;
+        ScoreText.text = score.ToString();
+    }
+
+    public override void OnStartAuthority()
+    {
+        canvas.gameObject.SetActive(true);
     }
 }

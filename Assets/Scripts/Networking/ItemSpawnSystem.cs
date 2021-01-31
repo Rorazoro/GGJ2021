@@ -11,6 +11,11 @@ public class ItemSpawnSystem : NetworkBehaviour
 
     private int nextIndex = 0;
 
+    private void Awake()
+    {
+        SpawnItems();
+    }
+
     public static void AddSpawnPoint(Transform transform)
     {
         spawnPoints.Add(transform);
@@ -19,7 +24,7 @@ public class ItemSpawnSystem : NetworkBehaviour
     }
     public static void RemoveSpawnPoint(Transform transform) => spawnPoints.Remove(transform);
 
-    public override void OnStartServer() => NetworkManagerLobby.OnServerReadied += SpawnItems;
+    //public override void OnStartServer() => NetworkManagerLobby.OnServerReadied += SpawnItems;
 
     public override void OnStartClient()
     {
@@ -28,10 +33,9 @@ public class ItemSpawnSystem : NetworkBehaviour
     }
 
     [ServerCallback]
-    private void OnDestroy() => NetworkManagerLobby.OnServerReadied -= SpawnItems;
+    //private void OnDestroy() => NetworkManagerLobby.OnServerReadied -= SpawnItems;
 
-    [Server]
-    public void SpawnItems(NetworkConnection conn)
+    public void SpawnItems()
     {
         itemPrefabs.Shuffle();
 
@@ -46,7 +50,7 @@ public class ItemSpawnSystem : NetworkBehaviour
             }
 
             GameObject itemInstance = Instantiate(itemPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
-            NetworkServer.Spawn(itemInstance, conn);
+            NetworkServer.Spawn(itemInstance);
             nextIndex++;
         }
         nextIndex = 0;

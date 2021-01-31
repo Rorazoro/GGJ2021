@@ -131,6 +131,7 @@ public class NetworkManagerLobby : NetworkManager
         {
             if (!IsReadyToStart()) { return; }
 
+
             ServerChangeScene("Game");
         }
     }

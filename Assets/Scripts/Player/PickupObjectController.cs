@@ -7,7 +7,9 @@ public class PickupObjectController : NetworkBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log($"{gameObject.name} picked up.");
+            NetworkGamePlayer player = other.gameObject.GetComponent<NetworkGamePlayer>();
+            player.IncreaseScore();
+            Destroy(gameObject);
         }
     }
 }
