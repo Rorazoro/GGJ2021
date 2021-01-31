@@ -9,6 +9,7 @@ public class PlayerMovementController : NetworkBehaviour
     [SerializeField] private float vSpeed;
     [SerializeField] private CharacterController controller = null;
     [SerializeField] private Transform GFXTransform = null;
+    [SerializeField] private Animator animator = null;
 
     private Vector2 previousInput;
     private Vector3 moveDirection = Vector3.zero;
@@ -71,5 +72,7 @@ public class PlayerMovementController : NetworkBehaviour
             var rotation = Quaternion.LookRotation(moveDirection);
             GFXTransform.rotation = Quaternion.RotateTowards(GFXTransform.rotation, rotation, 15f);
         }
+
+        animator.SetBool("moving", previousInput.y != 0 || previousInput.x != 0);
     }
 }
